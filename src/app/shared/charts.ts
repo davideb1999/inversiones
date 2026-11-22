@@ -96,7 +96,7 @@ function hexToRgba(hex: string, alpha: number): string {
         }
       </ul>
     }
-    <div class="wrap" [style.height.px]="height()">
+    <div class="wrap" [style.height.px]="chartHeight()">
       <canvas #canvas role="img" [attr.aria-label]="ariaLabel()"></canvas>
     </div>
   `,
@@ -124,6 +124,8 @@ export class LineChart implements OnDestroy {
   private chart?: Chart<'line' | 'scatter', { x: number; y: number }[]>;
 
   readonly ariaLabel = computed(() => 'Gráfico: ' + this.series().map((s) => s.label).join(', '));
+  /** En el móvil las gráficas son más bajas para que se vea más contenido sin desplazarse. */
+  readonly chartHeight = computed(() => (matchMedia('(max-width: 600px)').matches ? Math.min(this.height(), 220) : this.height()));
 
   constructor() {
     afterRenderEffect(() => {
@@ -302,10 +304,11 @@ export interface DonutItem {
   styles: `
     .donut { display: flex; gap: 20px; align-items: center; flex-wrap: wrap; }
     .canvas-wrap { width: 150px; height: 150px; flex: none; }
-    .items { list-style: none; margin: 0; padding: 0; flex: 1; min-width: 160px; display: grid; gap: 8px; font-size: 14px; }
+    .items { list-style: none; margin: 0; padding: 0; flex: 1; min-width: 160px; max-width: 100%; display: grid; gap: 8px; font-size: 14px; }
+    @media (max-width: 600px) { .donut { justify-content: center; } .items { flex-basis: 100%; min-width: 0; } }
     li { display: flex; align-items: center; gap: 8px; }
     .dot { width: 10px; height: 10px; border-radius: 50%; flex: none; }
-    .name { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--text-2); }
+    .name { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--text-2); }
     .pct { font-variant-numeric: tabular-nums; color: var(--text); font-weight: 600; }
   `,
 })

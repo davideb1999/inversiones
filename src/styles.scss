@@ -557,27 +557,133 @@ table.data .num {
   font-size: 14px;
 }
 
+/* Utilidades de visibilidad por tamaño de pantalla. */
 @media (max-width: 600px) {
+  .hide-mobile {
+    display: none !important;
+  }
+}
+@media (min-width: 601px) {
+  .only-mobile {
+    display: none !important;
+  }
+}
+
+/* Tablas: los números no se parten en dos líneas. */
+table.data td.num,
+table.data th.num {
+  white-space: nowrap;
+}
+
+/* ---------- Móvil ---------- */
+@media (max-width: 600px) {
+  html,
+  body {
+    font-size: 15px;
+  }
   .page {
-    padding: 16px 16px 32px;
-    gap: 16px;
+    padding: 14px 14px 28px;
+    gap: 14px;
   }
   .card {
-    padding: 16px;
+    padding: 14px;
+    border-radius: 10px;
   }
   h1 {
-    font-size: 21px;
+    font-size: 22px;
+  }
+  h2 {
+    font-size: 16px;
+  }
+  /* 16 px evita que el iPhone haga zoom al tocar un campo. */
+  input,
+  select,
+  textarea {
+    font-size: 16px;
   }
   .grid.two {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .grid.kpis {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+  }
+  .kpi {
+    padding: 12px;
+  }
+  .kpi .value {
+    font-size: 18px;
+  }
+  .hero-value {
+    font-size: 34px;
+  }
+  /* Cabecera de página: título arriba y botones compactos en una fila que se desliza si no caben. */
+  .page-header {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+  .page > *,
+  .page-header > * {
+    min-width: 0;
+    max-width: 100%;
+  }
+  .page-header > .row {
+    gap: 8px;
+  }
+  .page-header > .row::-webkit-scrollbar {
+    display: none;
+  }
+  .page-header > .row .btn {
+    flex: 1 1 auto;
+    padding: 7px 12px;
+    min-height: 38px;
+    font-size: 13px;
+  }
+  /* Título de tarjeta y sus controles, uno debajo de otro. */
+  .card-head {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+  .card-head > * {
+    min-width: 0;
+  }
+  /* Tablas anchas: se deslizan dentro de la tarjeta, de borde a borde, sin mover la página. */
+  .table-scroll {
+    margin: 0 -14px;
+    padding: 0 14px;
+    -webkit-overflow-scrolling: touch;
+  }
+  table.data {
+    font-size: 13px;
+  }
+  table.data th,
+  table.data td {
+    padding: 8px 6px;
+  }
+  .btn {
+    min-height: 42px;
+  }
+  .btn.sm {
+    min-height: 34px;
+  }
+  .tabs button {
+    padding: 10px 12px;
   }
   .modal-backdrop {
     align-items: flex-end;
     padding: 0;
   }
   .modal {
-    border-radius: var(--radius) var(--radius) 0 0;
+    border-radius: 14px 14px 0 0;
     max-height: 92dvh;
-    padding-bottom: calc(22px + env(safe-area-inset-bottom));
+    padding: 18px 16px calc(18px + env(safe-area-inset-bottom));
+  }
+  .modal .row {
+    flex-wrap: wrap;
+  }
+  .disclaimer {
+    font-size: 11px;
   }
 }

@@ -69,7 +69,24 @@ interface Perf {
           <div class="kpi"><div class="label">Lo que más ha comprado</div><div class="value small-v">{{ yearStats().top || '—' }}</div></div>
         </div>
 
-        <div class="table-scroll">
+        <!-- Móvil: lista compacta -->
+        <ul class="tlist only-mobile">
+          @for (t of recent(); track $index) {
+            <li>
+              <div class="tl-main">
+                @if (t.ticker) { <a [routerLink]="['/mercado', t.ticker]"><strong>{{ t.ticker }}</strong></a> }
+                <span class="tl-name">{{ t.asset }}</span>
+                <span class="small muted">{{ t.date | fecha }} · publicada {{ t.disclosed | fecha }}</span>
+              </div>
+              <div class="tl-side">
+                <span class="badge" [class.good]="t.type === 'Purchase'" [class.bad]="t.type === 'Sale'">{{ typeLabel(t.type) }}</span>
+                @if (t.assetType.includes('Option')) { <span class="badge warn">Opción</span> }
+                <span class="small">{{ t.amount }}</span>
+              </div>
+            </li>
+          }
+        </ul>
+        <div class="table-scroll hide-mobile">
           <table class="data">
             <thead><tr><th>Operación</th><th>Publicada</th><th>Valor</th><th>Tipo</th><th class="num">Importe</th></tr></thead>
             <tbody>
@@ -130,6 +147,12 @@ interface Perf {
     .sub-h { margin: 20px 0 8px; font-size: 15px; }
     .verdict-line { margin: 12px 0 0; font-weight: 600; }
     table { margin-top: 14px; }
+    .tlist { list-style: none; margin: 14px 0 0; padding: 0; }
+    .tlist li { display: flex; gap: 10px; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid var(--border); }
+    .tl-main { display: grid; min-width: 0; }
+    .tl-main a { text-decoration: none; }
+    .tl-name { font-size: 13px; color: var(--text-2); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .tl-side { display: grid; justify-items: end; align-content: start; gap: 4px; text-align: right; flex: none; max-width: 45%; }
   `,
 })
 export class CongressTrades {

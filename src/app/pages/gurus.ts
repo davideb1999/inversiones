@@ -110,7 +110,8 @@ import { Help, Notice } from '../shared/ui';
     </div>
   `,
   styles: `
-    .stack-lg { display: grid; gap: 20px; }
+    .stack-lg { display: grid; grid-template-columns: minmax(0, 1fr); gap: 20px; }
+    @media (max-width: 600px) { .stack-lg { gap: 14px; } .gurus { grid-template-columns: minmax(0, 1fr); } }
     .gurus { display: grid; gap: 16px; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); }
     .guru { display: grid; gap: 8px; align-content: start; }
     .guru header { display: flex; gap: 12px; align-items: center; }

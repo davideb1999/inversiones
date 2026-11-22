@@ -112,7 +112,24 @@ import { TaxTips } from '../shared/tax-tips';
       <section class="card">
         <h2 class="card-title">Ventas de {{ year() }}<app-help term="Valor de adquisición" text="Lo que te costaron las participaciones que vendes (comisiones incluidas), calculado por FIFO: primero salen las que compraste antes." /></h2>
         @if (s().sales.length) {
-          <div class="table-scroll">
+          <ul class="sales only-mobile">
+            @for (v of s().sales; track $index) {
+              <li>
+                <div class="sl-top">
+                  <a [routerLink]="['/activo', v.assetId]"><strong>{{ v.assetName }}</strong></a>
+                  <strong [class.up]="(v.gain ?? 0) > 0" [class.down]="(v.gain ?? 0) < 0">{{ v.gain === undefined ? '—' : (v.gain | money) }}</strong>
+                </div>
+                <div class="small muted">{{ v.date | fecha }} · {{ typeLabel[v.type] }} · {{ v.shares | num: 4 }} particip.@if (v.isin) { · {{ v.isin }} }</div>
+                <div class="sl-grid small">
+                  <span>Transmisión</span><span class="num">{{ v.proceeds | money }}</span>
+                  <span>Adquisición</span><span class="num">{{ v.cost === undefined ? '—' : (v.cost | money) }}</span>
+                </div>
+                @if (v.missingData) { <span class="badge warn">Faltan datos</span> }
+                @if (v.washSale) { <span class="badge warn">Pérdida aplazada</span> }
+              </li>
+            }
+          </ul>
+          <div class="table-scroll hide-mobile">
             <table class="data">
               <thead><tr><th>Fecha</th><th>Valor</th><th>Tipo</th><th class="num">Particip.</th><th class="num">Transmisión</th><th class="num">Adquisición</th><th class="num">Resultado</th><th></th></tr></thead>
               <tbody>
@@ -170,6 +187,12 @@ import { TaxTips } from '../shared/tax-tips';
     .year { min-width: 240px; }
     .calc td:first-child { color: var(--text-2); }
     .calc tr.total td { font-weight: 600; color: var(--text); }
+    .sales { list-style: none; margin: 0; padding: 0; }
+    .sales li { display: grid; gap: 4px; padding: 12px 0; border-bottom: 1px solid var(--border); }
+    .sl-top { display: flex; justify-content: space-between; gap: 10px; }
+    .sl-top a { text-decoration: none; }
+    .sl-grid { display: grid; grid-template-columns: 1fr auto; gap: 2px 12px; color: var(--text-2); }
+    .sl-grid .num { text-align: right; font-variant-numeric: tabular-nums; color: var(--text); }
     .where { margin: 0; padding-left: 20px; display: grid; gap: 10px; font-size: 14px; line-height: 1.55; }
   `,
 })

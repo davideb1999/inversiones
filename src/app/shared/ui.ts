@@ -24,7 +24,13 @@ import { addDays, today } from '../core/models';
     }
   `,
   styles: `
+    :host { display: block; min-width: 0; max-width: 100%; }
     .ranges { display: flex; gap: 2px; overflow-x: auto; scrollbar-width: none; background: var(--chip); border-radius: 6px; padding: 3px; width: fit-content; max-width: 100%; }
+    @media (max-width: 600px) {
+      .ranges { width: 100%; }
+      .ranges button { flex: 1 0 auto; padding: 7px 4px; font-size: 12px; min-height: 32px; }
+      .custom label { flex: 1; }
+    }
     .ranges::-webkit-scrollbar { display: none; }
     button { border: 0; background: transparent; color: var(--text-2); font: inherit; font-size: 13px; font-weight: 600; padding: 6px 10px; border-radius: 8px; cursor: pointer; white-space: nowrap; min-height: 32px; }
     button:hover { color: var(--text); }

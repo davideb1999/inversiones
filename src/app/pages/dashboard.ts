@@ -28,7 +28,7 @@ import { Help, Notice, RangeSelector } from '../shared/ui';
               Actualizar
             </button>
           }
-          <a class="btn" routerLink="/importar"><app-icon name="upload" [size]="18" />Importar de Trade Republic</a>
+          <a class="btn hide-mobile" routerLink="/importar"><app-icon name="upload" [size]="18" />Importar de Trade Republic</a>
           <a class="btn primary" routerLink="/nuevo"><app-icon name="plus" [size]="18" />Añadir inversión</a>
         </div>
       </header>
@@ -167,6 +167,12 @@ import { Help, Notice, RangeSelector } from '../shared/ui';
     .plain { margin-top: 12px; color: var(--text-2); font-size: 14px; background: var(--surface-2); border-radius: 6px; padding: 10px 12px; }
     .range-summary { color: var(--text-2); font-size: 14px; }
     .small-seg { min-width: 230px; }
+    @media (max-width: 600px) {
+      .small-seg { min-width: 0; }
+      .hero { gap: 16px; }
+      .asset { padding: 12px; }
+      .a-name { font-size: 15px; }
+    }
     .small-seg button { font-size: 13px; padding: 6px; }
     .assets { display: grid; gap: 8px; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); }
     .asset { display: flex; gap: 12px; align-items: center; padding: 14px; border: 1px solid var(--border); border-radius: 8px; text-decoration: none; color: var(--text); background: var(--surface); transition: background .15s; }
